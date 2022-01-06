@@ -100,6 +100,24 @@
 </div>
 
 
+<div class="container container-medium" style="margin-top: 20px">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">
+                    <b>10 TRANSAKSI TERBARU</b>
+                </div>
+                <div class="panel-body">
+
+
+                    <div id="postList0" class="list-group" style="font-size: 18px"></div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 <div class="modal fade modal-fullscreen" id="formTahunAjaran" role="dialog">
     <div class="modal-dialog" role="document">
@@ -250,6 +268,78 @@
                 }, 300);
             }
         });
+    }
+
+
+
+
+
+    searchFilter0(0);
+    function searchFilter0(page_num) {
+        page_num = page_num?page_num:0;
+
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo base_url(); ?>index.php/admin/transaksi/ajaxPaginationData/'+page_num,
+            data:'page='+page_num+'&limitBy=10',
+            dataType:'json',
+            beforeSend: function () {
+                $('#loading_ajax').show();
+            },
+            success: function (responseData) {
+                paginationData0(responseData.empData);
+                $('#loading_ajax').fadeOut("slow");
+            }
+        });
+    }
+
+
+    function paginationData0(data) {
+
+
+        $('#postList0').empty();
+        var nomor = 0;
+
+        if(data.length < 1 || !data){
+
+            var empRow = ''+
+                '<div class="row">'+
+                '<div class="col-md-12">'+
+                '<div class="bs-callout bs-callout-danger" id="callout-glyphicons-empty-only">'+
+                '<h4>Tidak ada daftar transaksi</h4>'+
+                '<p>Daftar transaksi akan terlihat ketika data tersedia!.</p>'+
+                '</div>'+
+                '</div>'+
+                '</div>'+
+                '<div class="clearfix"></div>'+
+                '';
+            $('#postList0').append(empRow);
+        }else{
+
+            for(emp in data){
+
+
+                var empRow = '<div class="list-group-item">'+
+                    '<p class="list-group-item-text title" style="text-align:center;">'+
+                    ' <span class="label label-default">'+data[emp].transaksi_jenis+'</span>'+
+                    ' <span class="label label-default">'+data[emp].transaksi_jumlah+' barang</span>'+
+                    '</p><br/>'+
+
+
+                    '<h4 class="list-group-item-heading name"><i class="fas fa-file"></i> '+ data[emp].transaksi_keterangan+'</h4>'+
+
+                    '<p><i style="color:#999">'+data[emp].transaksi_peminjam+'</i></p>'+
+                    '</div></div>'+
+
+
+                    '<div class="clearfix"></div>'+
+                    '</div>';
+                nomor++;
+                $('#postList0').append(empRow);
+            }
+
+        }
+
     }
 
 </script>

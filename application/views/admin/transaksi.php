@@ -239,8 +239,8 @@
                     <table class='table table-hover' id='TabelTransaksi'>
                         <thead>
                         <tr>
-                            <th style='width:40px;'>#</th>
-                            <th style='width:210px;'>Kode Barang</th>
+                            <th style='width:25px;'>#</th>
+                            <th style='width:260px;'>Kode Barang</th>
                             <th>Nama Barang</th>
                             <th style='width:75px;'>Qty</th>
                             <th style='width:40px;'></th>
