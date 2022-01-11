@@ -50,8 +50,8 @@
             echo '<table style="width:6.6cm;height:5.0cm;border:1px solid rgba(156,156,156,0.76);" class="kartu">
 								<tbody>
 								<tr><td style="text-align:center"><strong>' .strtoupper($item['barang_nama']).'</strong></td></tr>
-								<tr><td style="text-align:center"><div class="qrcode1" id="qr_'.$item['barang_nomor'].' '.$a.'" data-value="'.$item['barang_nomor'].' '.$a.'" title="'.$item['barang_nomor'].' '.$a.'"></div></td></tr>
-								<tr><td style="text-align:center">'.$item['barang_nomor'].' '.$a.'</td></tr>
+								<tr><td style="text-align:center"><div class="qrcode1" id="qr_'.$item['barang_nomor'].'-'.$a.'" data-value="'.$item['barang_nomor'].'-'.$a.'" title="'.$item['barang_nomor'].'-'.$a.'"></div></td></tr>
+								<tr><td style="text-align:center">'.$item['barang_nomor'].'-'.$a.'</td></tr>
 								<tr><td style="text-align:center"><strong>SMK NEGERI 1 CANDIPURO</strong></td></tr>
 								
 							</tbody></table>';

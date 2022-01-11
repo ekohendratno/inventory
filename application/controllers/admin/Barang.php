@@ -22,7 +22,7 @@ class Barang extends CI_Controller{
 	function index(){
 		
 		
-		$data['title'] = "Data barang Perpus";
+		$data['title'] = "Barang";
 		
         $this->template->load('template','admin/barang',$data);
 	}
@@ -174,7 +174,129 @@ class Barang extends CI_Controller{
 		echo json_encode($data);	
     }
 
-	function hitung_stok_barang($barang_id = 0){
+
+
+
+    function getRows2($params = array()){
+        $this->db->select('*');
+        $this->db->from('barang_services');
+        //sort data by ascending or desceding order
+        if(!empty($params['search']['sortBy'])){
+            $this->db->order_by('barang_services_tanggal_masuk',$params['search']['sortBy']);
+        }else{
+            $this->db->order_by('barang_services_tanggal_masuk','desc');
+        }
+
+
+        //set start and limit
+        if(array_key_exists("start",$params) && array_key_exists("limit",$params)){
+            $this->db->limit($params['limit'],$params['start']);
+        }elseif(!array_key_exists("start",$params) && array_key_exists("limit",$params)){
+            $this->db->limit($params['limit']);
+        }
+
+        //get records
+        $query = $this->db->get();
+
+        $data = array();
+        foreach($query->result_array() as $row){
+
+            $items = array();
+            $items['barang_services_id'] = $row['barang_services_id'];
+            $items['barang_services_catatan'] = $row['barang_services_catatan'];
+            $items['barang_services_keadaan'] = $row['barang_services_keadaan'];
+            $items['barang_services_status'] = $row['barang_services_status'];
+            $items['barang_services_nomor'] = $row['barang_services_nomor'];
+            $items['barang_services_tanggal_masuk'] = $row['barang_services_tanggal_masuk'];
+            $items['barang_services_tanggal_keluar'] = $row['barang_services_tanggal_keluar'];
+
+            $nomor = explode("-",$row['barang_services_nomor']);
+
+            $items['barang_nama'] = $nomor[0];
+            $barang = $this->db->get_where('barang', array('barang_nomor'=>$nomor[0]));
+            foreach ($barang->result_array() as $row2){
+                $items['barang_nama'] = $row2['barang_nama'];
+            }
+
+            array_push($data,$items);
+        }
+
+
+        //return fetched data
+        return $data;
+    }
+
+    function ajaxPaginationDataServis(){
+
+        $this->perPage = 10;
+        $conditions = array();
+
+        //calc offset number
+        $page = $this->input->post('page');
+        if(!$page){
+            $offset = 0;
+        }else{
+            $offset = $page;
+        }
+
+        //set conditions for search
+        $limitBy = 10;
+
+
+        if(!empty($limitBy)){
+            $this->perPage = (int) $limitBy;
+        }
+
+
+        //total rows count
+        $totalRec = count($this->getRows2($conditions));
+
+        //pagination configuration
+        $config['target']      = '#postList2 tbody';
+        $config['base_url']    = base_url().'barang/ajaxPaginationDataServis';
+        $config['total_rows']  = $totalRec;
+        $config['per_page']    = $this->perPage;
+        $config['link_func']   = 'searchFilterServis';
+
+
+        // integrate bootstrap pagination
+        $config['full_tag_open'] = '<ul class="pagination">';
+        $config['full_tag_close'] = '</ul>';
+        $config['first_link'] = 'First';
+        $config['last_link'] = 'Last';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['prev_link'] = 'Prev';
+        $config['prev_tag_open'] = '<li class="prev">';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = 'Next';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $this->ajax_pagination->initialize($config);
+
+        //set start and limit
+        $conditions['start'] = $offset;
+        $conditions['limit'] = $this->perPage;
+
+        //get posts data
+        $data['empData'] = $this->getRows2($conditions);
+        $data['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $data['pagination'] = $this->ajax_pagination->create_links();
+
+        $this->output->set_header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($data);
+    }
+
+
+
+
+    function hitung_stok_barang($barang_id = 0){
 		if($barang_id < 1 ) return 0;
 
 		/**
@@ -239,6 +361,7 @@ class Barang extends CI_Controller{
 
         $id 	            = $this->input->post('id');
         $barang_nama		    = $this->input->post('barang_nama');
+        $barang_nomor		    = $this->input->post('barang_nomor');
         $barang_nomor_kode		    = $this->input->post('barang_nomor_kode');
         $barang_nomor_register 	    = $this->input->post('barang_nomor_register');
         $barang_nomor_seripabrik		    = $this->input->post('barang_nomor_seripabrik');
@@ -267,7 +390,7 @@ class Barang extends CI_Controller{
 
             $data = array();
             $data['barang_nama'] = $barang_nama;
-            $data['barang_nomor'] = 0;
+            $data['barang_nomor'] = $barang_nomor;
             $data['barang_nomor_kode'] = $barang_nomor_kode;
             $data['barang_nomor_register'] = $barang_nomor_register;
             $data['barang_nomor_seripabrik'] = $barang_nomor_seripabrik;
@@ -335,8 +458,6 @@ class Barang extends CI_Controller{
         echo json_encode($data);
     }
 
-
-	
 	function hapusdatabyid(){
 		$id = $this->input->post('id');
 		
@@ -346,6 +467,90 @@ class Barang extends CI_Controller{
 		$this->m->hapusbyid($where,'barang');		
 		
 	}
+
+
+
+
+    function simpan2(){
+
+        $id 	            = $this->input->post('barang_services_id');
+        $barang_services_nomor		    = $this->input->post('barang_services_nomor');
+        $barang_services_keadaan		    = $this->input->post('barang_services_keadaan');
+        $barang_services_status		    = $this->input->post('barang_services_status');
+        $barang_services_catatan 	    = $this->input->post('barang_services_catatan');
+
+        $response = array();
+        $response["response"] = array();
+        $response["success"] = false;
+
+
+        $barang_tanggal = date("d-m-y");
+
+        if(empty($barang_services_nomor)) $this->query_error("Nomor Barang kosong!");
+        else {
+
+            $data = array();
+            $data['barang_services_nomor'] = $barang_services_nomor;
+            $data['barang_services_keadaan'] = $barang_services_keadaan;
+            $data['barang_services_status'] = $barang_services_status;
+            $data['barang_services_catatan'] = $barang_services_catatan;
+
+
+
+            if ($id > 0) {
+                $data['barang_services_tanggal_keluar'] = $barang_tanggal;
+
+                $this->db->where('barang_services_id', $id);
+                $master = $this->db->update('barang_services', $data);
+            } else {
+                $data['barang_services_tanggal_masuk'] = $barang_tanggal;
+
+                $master = $this->db->insert('barang_services', $data);
+                $id = $this->db->insert_id();
+            }
+
+
+            if ($master) {
+                $this->output->set_header('Content-Type: application/json; charset=utf-8,Access-Control-Allow-Origin: *');
+                echo json_encode(array('id' => $id, 'status' => 1, 'pesan' => "<font color='green'><i class='fa fa-check'></i> Data berhasil disimpan !</font>"));
+            } else {
+                $this->query_error();
+            }
+
+
+        }
+
+    }
+
+    function ambildatabyidservis(){
+        $id = $this->input->get('id');
+        $users = $this->db->get_where('barang_services', array('barang_services_id'=>$id));
+
+
+        $data = array();
+        foreach ($users->result_array() as $row){
+            $data['barang_services_catatan'] = $row['barang_services_catatan'];
+            $data['barang_services_keadaan'] = $row['barang_services_keadaan'];
+            $data['barang_services_status'] = $row['barang_services_status'];
+            $data['barang_services_nomor'] = $row['barang_services_nomor'];
+            $data['barang_services_tanggal_masuk'] = $row['barang_services_tanggal_masuk'];
+            $data['barang_services_tanggal_keluar'] = $row['barang_services_tanggal_keluar'];
+
+        }
+
+        $this->output->set_header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($data);
+    }
+
+    function hapusdatabyid2(){
+        $id = $this->input->post('id');
+
+        $where = array(
+            'barang_services_id'=>$id
+        );
+        $this->m->hapusbyid($where,'barang_services');
+
+    }
 
 	
 	
@@ -530,6 +735,43 @@ class Barang extends CI_Controller{
             echo json_encode(array('status' => 1));
         }
     }
-	
+
+
+    public function suges_barang_services_nomor(){
+        $q = $this->input->get('term');
+
+        $this->db->select("*")->from("barang");
+        $this->db->group_by("barang_nomor");
+
+
+        if(!empty($q)){
+            $this->db->like('barang_nama',$q);
+            $this->db->or_like('barang_nomor',$q);
+        }
+        $this->db->order_by("barang_nama","asc");
+
+        //get records
+        $query = $this->db->get();
+
+        $items = array();
+        foreach($query->result() as $row){
+            $data = array();
+            $data['label'] = $row->barang_nomor;
+
+            array_push($items, $data);
+
+        }
+
+        $this->output->set_header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($items);
+    }
+
+
+
+
+    function query_error($text){
+        $this->output->set_header('Content-Type: application/json; charset=utf-8,Access-Control-Allow-Origin: *');
+        echo json_encode(array('status' => 0, 'pesan' => "<font color='red'><i class='fas fa-exclamation-triangle'></i> ".$text."</font>"));
+    }
 }
 ?>

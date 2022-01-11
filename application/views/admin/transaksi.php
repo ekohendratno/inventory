@@ -805,7 +805,7 @@
                     '<div class="col-md-4 col-sm-6 col-xs-4" style="text-align:center;"><div class="row">'+
 
 
-                    '<a title="Ubah Data" title="Ubah" onClick="formDialog('+data[emp].transaksi_id+')" data-backdrop="static" data-keyboard="false" data-toggle="modal" href="#formDialog" class="btn btn-circle btn-default" style="color: #5cb85c;" ><span class="fas fa-pen"></span></a>'+
+                    //'<a title="Ubah Data" title="Ubah" onClick="formDialog('+data[emp].transaksi_id+')" data-backdrop="static" data-keyboard="false" data-toggle="modal" href="#formDialog" class="btn btn-circle btn-default" style="color: #5cb85c;" ><span class="fas fa-pen"></span></a>'+
                     '<a title="Hapus" onclick="submitHapus('+data[emp].transaksi_id+')" class="btn btn-circle btn-default" style="color: #d9534f;"><span class="fas fa-trash"></span></a>'+
 
 
