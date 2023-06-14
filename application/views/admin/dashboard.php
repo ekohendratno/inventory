@@ -102,15 +102,29 @@
 
 <div class="container container-medium" style="margin-top: 20px">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading text-center">
-                    <b>10 TRANSAKSI TERBARU</b>
+                    <b>TRANSAKSI TERBARU</b>
                 </div>
                 <div class="panel-body">
 
 
                     <div id="postList0" class="list-group" style="font-size: 18px"></div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">
+                    <b>SERVIS BARANG TERBARU</b>
+                </div>
+                <div class="panel-body">
+
+
+                    <div id="postList1" class="list-group" style="font-size: 18px"></div>
 
                 </div>
             </div>
@@ -321,14 +335,15 @@
 
                 var empRow = '<div class="list-group-item">'+
                     '<p class="list-group-item-text title" style="text-align:center;">'+
+                    ' <span class="label label-default">'+data[emp].transaksi_peminjam+'</span>'+
                     ' <span class="label label-default">'+data[emp].transaksi_jenis+'</span>'+
                     ' <span class="label label-default">'+data[emp].transaksi_jumlah+' barang</span>'+
+                    ' <span class="label label-default">'+data[emp].transaksi_tanggal_pinjam+'</span>'+
                     '</p><br/>'+
 
 
-                    '<h4 class="list-group-item-heading name"><i class="fas fa-file"></i> '+ data[emp].transaksi_keterangan+'</h4>'+
+                    '<h4 class="list-group-item-heading name"><i class="fas fa-file"></i> '+ data[emp].transaksi_nota+'</h4>'+
 
-                    '<p><i style="color:#999">'+data[emp].transaksi_peminjam+'</i></p>'+
                     '</div></div>'+
 
 
@@ -336,6 +351,101 @@
                     '</div>';
                 nomor++;
                 $('#postList0').append(empRow);
+            }
+
+        }
+
+    }
+
+
+
+    searchFilter1(0);
+    function searchFilter1(page_num) {
+        page_num = page_num?page_num:0;
+
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo base_url(); ?>index.php/admin/barang/ajaxPaginationDataServis/'+page_num,
+            data:'page='+page_num+'&limitBy=10',
+            dataType:'json',
+            beforeSend: function () {
+                $('#loading_ajax').show();
+            },
+            success: function (responseData) {
+                paginationData1(responseData.empData);
+                $('#loading_ajax').fadeOut("slow");
+            }
+        });
+    }
+
+
+    function paginationData1(data) {
+
+
+        $('#postList1').empty();
+        var nomor = 0;
+
+        if(data.length < 1 || !data){
+
+            var empRow = ''+
+                '<div class="row">'+
+                '<div class="col-md-12">'+
+                '<div class="bs-callout bs-callout-danger" id="callout-glyphicons-empty-only">'+
+                '<h4>Tidak ada daftar barang</h4>'+
+                '<p>Daftar barang akan terlihat ketika data tersedia!.</p>'+
+                '</div>'+
+                '</div>'+
+                '</div>'+
+                '<div class="clearfix"></div>'+
+                '';
+            $('#postList1').append(empRow);
+        }else{
+
+            for(emp in data){
+
+                var status_lyt = " label-default";
+                if(data[emp].barang_services_status == "Menunggu"){
+                    status_lyt = " label-warning";
+                }else if(data[emp].barang_services_status == "Selesai"){
+                    status_lyt = " label-success";
+                }else if(data[emp].barang_services_status == "Sedang ditangani"){
+                    status_lyt = " label-primary";
+                }else if(data[emp].barang_services_status == "Tidak dapat ditangani"){
+                    status_lyt = " label-danger";
+                }else if(data[emp].barang_services_status == "Masuk Gudang"){
+                    status_lyt = " label-default";
+                }
+
+
+                var keadaan_lyt = " label-default";
+                if(data[emp].barang_services_keadaan == "Rusak ringan"){
+                    keadaan_lyt = " label-warning";
+                }else if(data[emp].barang_services_keadaan == "Rusak berat"){
+                    keadaan_lyt = " label-danger";
+                }else if(data[emp].barang_services_keadaan == "Baik"){
+                    keadaan_lyt = " label-success";
+                }else if(data[emp].barang_services_keadaan == "Hilang"){
+                    keadaan_lyt = " label-danger";
+                }else if(data[emp].barang_services_keadaan == "Perbaikan"){
+                    keadaan_lyt = " label-warning";
+                }
+
+                var empRow = '<div class="list-group-item">'+
+                    '<p class="list-group-item-text title" style="text-align:center;">'+
+                    ' <span class="label'+keadaan_lyt+'">'+data[emp].barang_services_keadaan+'</span>'+
+                    ' <span class="label'+status_lyt+'">'+data[emp].barang_services_status+'</span>'+
+                    '</p><br/>'+
+
+                    '<div class="col-md-12 col-sm-12 col-xs-12"><div class="row">'+
+
+                    '<h4 class="list-group-item-heading name">'+ data[emp].barang_nama+'</h4>'+
+                    '</div></div>'+
+
+
+                    '<div class="clearfix"></div>'+
+                    '</div>';
+                nomor++;
+                $('#postList1').append(empRow);
             }
 
         }

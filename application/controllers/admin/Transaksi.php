@@ -21,7 +21,7 @@ class Transaksi extends CI_Controller{
 	function index(){
 		
 		
-		$data['title'] = "Data Transaksi";
+		$data['title'] = "Transaksi";
 		
         $this->template->load('template','admin/transaksi',$data);
 	}
@@ -267,8 +267,8 @@ class Transaksi extends CI_Controller{
         $response["response"] = array();
         $response["success"] = false;
 
-        $transaksi_tanggal = date("d-m-y");
-        $transaksi_tanggal_jam = date("d-m-y H:i:s");
+        $transaksi_tanggal = date("y-m-d");
+        $transaksi_tanggal_jam = date("y-m-d H:i:s");
 
         if(empty($nomor_nota)) $this->query_error("Nomor transaksi kosong!");
         else {
@@ -557,6 +557,13 @@ class Transaksi extends CI_Controller{
 
         // menghitung selisih hari yang bukan tanggal merah dan hari minggu
         return $selisih-$libur1-$libur2;
+    }
+
+
+
+    function query_error($text){
+        $this->output->set_header('Content-Type: application/json; charset=utf-8,Access-Control-Allow-Origin: *');
+        echo json_encode(array('status' => 0, 'pesan' => "<font color='red'><i class='fas fa-exclamation-triangle'></i> ".$text."</font>"));
     }
 }
 ?>

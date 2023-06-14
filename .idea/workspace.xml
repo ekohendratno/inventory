@@ -3,8 +3,17 @@
   <component name="ChangeListManager">
     <list default="true" id="40e5bf23-0446-4b57-957d-b52260fa13a5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Barang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Barang.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/admin/Transaksi.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/admin/Transaksi.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/barang.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/barang.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/admin/cetak_qr.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/cetak_qr.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/admin/dashboard.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/dashboard.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/admin/transaksi.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/admin/transaksi.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/auth/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/auth/login.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/template.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/template.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/admin/img/logoppdb.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/admin/img/logopsb.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/logocbt.ico" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,10 +45,11 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/admin/css" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/admin/img" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\www\inventory\assets\admin\img" />
       <recent name="C:\www\inventory\assets\admin\css" />
       <recent name="C:\www\inventory\application\views\admin" />
       <recent name="C:\www\inventory\application\controllers\admin" />
@@ -71,7 +81,11 @@
       <workItem from="1641290150253" duration="21107000" />
       <workItem from="1641365100362" duration="2703000" />
       <workItem from="1641379183192" duration="1213000" />
-      <workItem from="1641460349731" duration="18332000" />
+      <workItem from="1641460349731" duration="23006000" />
+      <workItem from="1641555107218" duration="614000" />
+      <workItem from="1641638406432" duration="1632000" />
+      <workItem from="1641798721526" duration="10845000" />
+      <workItem from="1641891891956" duration="10729000" />
     </task>
     <servers />
   </component>

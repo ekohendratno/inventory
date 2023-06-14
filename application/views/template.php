@@ -19,7 +19,7 @@
     <script defer src="<?php echo base_url('assets/admin/js/fontawesome/js/all.js'); ?>"></script>
     <script src="<?php echo base_url('assets/admin/js/sweetalert/sweetalert.min.js'); ?>"></script>
 
-    <link rel="icon" type="image/ico" href="<?php echo base_url('assets/images/logocbt.ico') ?>">
+    <link rel="icon" type="image/ico" href="<?php echo base_url('assets/images/inventory.ico') ?>">
     <link rel='dns-prefetch' href='<?php echo base_url();?>' />
 
     <script src="<?php echo base_url('assets/admin/js/bootstrap.min.js') ?>"></script>
@@ -873,7 +873,7 @@
 
                     <?php if($this->uri->segment(2) == 'dashboard'){?>
                         <a class="navbar-brand" href="<?php echo base_url().$this->uri->segment(1);?>/dashboard">
-                            <img alt="CBT" src="<?php echo base_url();?>assets/images/logocbt.ico" style="margin-top: -5px; padding: 0; height: 30px">
+                            <img alt="CBT" src="<?php echo base_url();?>assets/images/inventory.ico" style="margin-top: -5px; padding: 0; height: 30px">
                         </a>
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                             <span class="sr-only">Toggle navigation</span>

@@ -100,10 +100,10 @@
 					<div id="loginbox" class="cpanel-login-v3-left col-md-12 col-md-offset-0">
 
                         <div class="py-5 text-center" style="padding-top: 20px;padding-bottom: 20px">
-                            <a href="<?php echo base_url();?>"><img src="<?php echo base_url();?>assets/images/logocbt.ico" width="98px"/></a>
+                            <a href="<?php echo base_url();?>"><img src="<?php echo base_url();?>assets/images/inventory.ico" width="98px"/></a>
                         </div>
                         <div class="py-4 of-login-container of-show">
-                            <h4 class="pt-2 text-center">Inventory Akun</h4>
+                            <h4 class="pt-2 text-center">Inventory</h4>
                             <div class="status"></div>
 
                             <div class="form-group form-group-lg">
@@ -119,7 +119,7 @@
                             </div>
 
                             <br class="clear"/>
-                            <div class="of-copyright text-center">&copy; 2019.<br/>Created by Eko Hendratno, S.Kom</div>
+                            <div class="of-copyright text-center">&copy; 2022.<br/>Created by Eko Hendratno, S.Kom</div>
                         </div>
 
 
@@ -131,7 +131,7 @@
 					<div id="signup-signin-v3-right-holder full-width" class="" style="display: block;">
 
 					<picture>
-					<img class="cpanel-login-v3-right__image" src="<?php echo base_url();?>assets/images/utama.jpg">
+					<img class="cpanel-login-v3-right__image" src="<?php echo base_url();?>assets/images/Inventory-Management.jpg">
 					</picture>
 					</div>
 				
